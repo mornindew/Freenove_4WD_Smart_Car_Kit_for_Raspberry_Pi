@@ -13,6 +13,8 @@ from Led import Led
 from Line_Tracking import Line_Tracking
 from Light import Light
 from Ultrasonic import Ultrasonic
+from ADC import Adc
+
 
 class Johnny:
     """This is the class definition and where I define the class.
@@ -80,9 +82,6 @@ class Johnny:
             self.tell_me_what_to_do()
         else:
             print("not a valid option")
-
-
-    # Private Methods - not accessible from the outside
 
     def fireworks(self):
         """This method will do a lightshow
@@ -270,18 +269,14 @@ class Johnny:
                 break
     
     def __get_battery_power(self):
-        battery = psutil.sensors_battery()
-        if (battery is not None):
-            print("Battery percentage : ", battery.percent)
-            print("Power plugged in : ", battery.power_plugged)
-            print("Battery left : " +convert_time(battery.secsleft))
+        adc=Adc()
+        Left_IDR=adc.recvADC(0)
+        print ("The photoresistor voltage on the left is "+str(Left_IDR)+"V")
+        Right_IDR=adc.recvADC(1)
+        print ("The photoresistor voltage on the right is "+str(Right_IDR)+"V")
+        Power=adc.recvADC(2)
+        print ("The battery voltage is "+str(Power*3)+"V")
         
-
-    # function returning time in hh:mm:ss
-
-    
-        # returns a tuple
-
 
     #Static methods
     # count method that will only count for 10 seconds -
@@ -301,21 +296,6 @@ class Johnny:
             if elapsed_time > max_seconds:
                 print("Total Count: " + str(count))
                 break
-
-
-@staticmethod
-def convert_time(seconds):
-    """Outputs 
-
-    Args:
-        seconds ([type]): [description]
-
-    Returns:
-        [type]: [description]
-    """
-    minutes, seconds = divmod(seconds, 60)
-    hours, minutes = divmod(minutes, 60)
-    return "%d:%02d:%02d" % (hours, minutes, seconds)
         
 # This is where I run my code as it is outside the class
 NUMBER_FIVE = Johnny("Johnny 5")
