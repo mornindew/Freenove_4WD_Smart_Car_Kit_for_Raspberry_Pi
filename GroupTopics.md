@@ -26,6 +26,8 @@ This mission is to test each of the components of the Rover and iron out any iss
  - Run code from command line
  - reverse motors (if needed)
  - Test all modules
+ - Explain the specifics of the command 
+	- sudo, python, test.py Motor
 
 ## Mission 4 - Start Coding
 The goal of this mission is to start getting familiar with coding and how code works.  We will start by pulling apart the Motor code and  walking through in detail.
