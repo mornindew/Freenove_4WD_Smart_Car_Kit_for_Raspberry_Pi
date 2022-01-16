@@ -4,6 +4,14 @@ import random
 import time
 
 class JohnnyLed(Led):
+    """This is the LED class.  I wrote this to clean up the code that
+    was provided by freenove.  It currently extends their class but I might 
+    switch to remove it from the class hierarchy
+
+    Args:
+        Led (Led): This is the Led Class that Freenove wrote.  It isn't my favorite but has 
+        key functionality that we need
+    """
 
     def display_led(self,index,R,G,B):
         """I wrote this to display LED.  I found it to be much simpler than 
