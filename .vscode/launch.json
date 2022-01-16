@@ -11,6 +11,15 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "sudo": true
+        },
+        {
+            "name": "Infrared Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "sudo": true,
+            "args": ["Infrared"]
         }
     ]
 }

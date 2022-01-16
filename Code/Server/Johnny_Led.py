@@ -15,8 +15,7 @@ class JohnnyLed(Led):
             G ([int]): [This is the 256 (0-255) integer value that represents its green color]
             B ([int]): [This is the 256 (0-255) integer value that represents its blue color]
         """
-        color=self.LED_TYPR(self.ORDER,Color(R,G,B))
-        self.strip.setPixelColor(index,color)
+        self.strip.setPixelColor(index,Color(R,G,B))
         self.strip.show()
 
     def random_led_display(self, number_of_intervals):

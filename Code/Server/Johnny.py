@@ -90,14 +90,14 @@ class Johnny:
 
     def shine_bright(self):
         try:
-            self.led.trythis(FRONT_OF_BACK_RIGHT_WHEEL,255,0,0)      #Red
-            self.led.trythis(REAR_OF_BACK_RIGHT_WHEEL,255,125,0)    #orange
-            self.led.trythis(REAR_OF_BACK_LEFT_WHEEL,255,255,0)    #yellow
-            self.led.trythis(FRONT_OF_BACK_LEFT_WHEEL,0,255,0)      #green
-            self.led.trythis(REAR_OF_FRONT_LEFT_WHEEL,0,255,255)    #cyan-blue
-            self.led.trythis(FRONT_OF_FRONT_LEFT_WHEEL,0,0,255)      #blue
-            self.led.trythis(FRONT_OF_FRONT_RIGHT_WHEEL,128,0,128)    #purple
-            self.led.trythis(REAR_OF_FRONT_RIGHT_WHEEL,255,255,255)  #white'''
+            self.led.display_led(FRONT_OF_BACK_RIGHT_WHEEL,255,0,0)      #Red
+            self.led.display_led(REAR_OF_BACK_RIGHT_WHEEL,255,125,0)    #orange
+            self.led.display_led(REAR_OF_BACK_LEFT_WHEEL,255,255,0)    #yellow
+            self.led.display_led(FRONT_OF_BACK_LEFT_WHEEL,0,255,0)      #green
+            self.led.display_led(REAR_OF_FRONT_LEFT_WHEEL,0,255,255)    #cyan-blue
+            self.led.display_led(FRONT_OF_FRONT_LEFT_WHEEL,0,0,255)      #blue
+            self.led.display_led(FRONT_OF_FRONT_RIGHT_WHEEL,128,0,128)    #purple
+            self.led.display_led(REAR_OF_FRONT_RIGHT_WHEEL,255,255,255)  #white'''
             print ("The LED has been lit, the color is red orange yellow green cyan-blue blue white")
             time.sleep(3)               #wait 3s
             self.led.colorWipe(self.led.strip, Color(0,0,0))  #turn off the light

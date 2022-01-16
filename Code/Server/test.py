@@ -61,6 +61,9 @@ line=Line_Tracking()
 def test_Infrared():
     try:
         while True:
+            print("IRO1:  "+str(GPIO.input(line.IR01)))
+            # print("IRO2:  "+str(GPIO.input(line.IR02)))
+            # print("IRO3:  "+str(GPIO.input(line.IR03)))
             if GPIO.input(line.IR01)!=True and GPIO.input(line.IR02)==True and GPIO.input(line.IR03)!=True:
                 print ('Middle')
             elif GPIO.input(line.IR01)!=True and GPIO.input(line.IR02)!=True and GPIO.input(line.IR03)==True:
