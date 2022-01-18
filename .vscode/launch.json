@@ -16,10 +16,64 @@
             "name": "Infrared Test",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "${workspaceFolder}/Code/Server/test.py",
             "console": "integratedTerminal",
             "sudo": true,
             "args": ["Infrared"]
-        }
+        },
+        {
+            "name": "Led Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Code/Server/test.py",
+            "console": "integratedTerminal",
+            "sudo": true,
+            "args": ["Led"]
+        },
+        {
+            "name": "Motor Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Code/Server/test.py",
+            "console": "integratedTerminal",
+            "sudo": true,
+            "args": ["Motor"]
+        },
+        {
+            "name": "Ultrasonic Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Code/Server/test.py",
+            "console": "integratedTerminal",
+            "sudo": true,
+            "args": ["Ultrasonic"]
+        },
+        {
+            "name": "Servo Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Code/Server/test.py",
+            "console": "integratedTerminal",
+            "sudo": true,
+            "args": ["Servo"]
+        },
+        {
+            "name": "ADC Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Code/Server/test.py",
+            "console": "integratedTerminal",
+            "sudo": true,
+            "args": ["ADC"]
+        },
+        {
+            "name": "Buzzer Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Code/Server/test.py",
+            "console": "integratedTerminal",
+            "sudo": true,
+            "args": ["Buzzer"]
+        },
     ]
 }
