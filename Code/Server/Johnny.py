@@ -14,7 +14,7 @@ from Line_Tracking import Line_Tracking
 from Light import Light
 from Ultrasonic import Ultrasonic
 from ADC import Adc
-from Constant import *
+from Johnny_Constant import *
 
 
 class Johnny:

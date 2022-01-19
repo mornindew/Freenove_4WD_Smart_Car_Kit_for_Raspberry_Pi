@@ -27,7 +27,7 @@ This mission is to test each of the components of the Rover and iron out any iss
  - reverse motors (if needed)
  - Test all modules
  - Explain the specifics of the command 
-	- sudo, python, test.py Motor
+	- sudo, python, test.py Motor	
 
 ## Mission 4 - Start Coding
 The goal of this mission is to start getting familiar with coding and how code works.  We will start by pulling apart the Motor code and  walking through in detail.
@@ -36,6 +36,8 @@ The goal of this mission is to start getting familiar with coding and how code w
 Write code to have your rover solve a maze.  The dimensions of the maze will be 4 feet forward --> right turn 90 degrees --> 2 feet forward --> left turn 90 degrees --> 2 feet forward --> left turn 90 degrees --> 3 feet forward --> right turn 90 degrees --> forward 1 foot --> 360 and stop
 
 Extra Credit - For extra credit you can make the LED's on the rover show green when moving forward, yellow when turning, and red when stopping
+
+<img src='Picture/maze.jpg' width='50%'/>
 
 ### Topics
 

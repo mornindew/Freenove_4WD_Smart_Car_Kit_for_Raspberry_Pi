@@ -151,7 +151,10 @@ if __name__ == '__main__':
     elif sys.argv[1] == 'ADC':   
         test_Adc()  
     elif sys.argv[1] == 'Buzzer':   
-        test_Buzzer()  
+        test_Buzzer() 
+    else:
+        print("Not a valid test case.")
+        exit() 
 
         
         
