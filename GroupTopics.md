@@ -40,7 +40,10 @@ Extra Credit - For extra credit you can make the LED's on the rover show green w
 <img src='Picture/maze.jpg' width='50%'/>
 
 
-![Solving the Maze](https://github.com/mornindew/Freenove_4WD_Smart_Car_Kit_for_Raspberry_Pi/tree/master/Picture/mission4.gif)
+Solving the Maze: 
+
+<img src='Picture/mission4.gif' width='50%'/>
+
 
 ### Topics
 
