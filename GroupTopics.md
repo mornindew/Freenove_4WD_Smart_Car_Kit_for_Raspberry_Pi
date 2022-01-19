@@ -42,7 +42,7 @@ Extra Credit - For extra credit you can make the LED's on the rover show green w
 
 Solving the Maze: 
 
-<img src='Picture/mission4.gif' width='50%'/>
+<img src='Picture/mission4.gif' width='25%'/>
 
 
 ### Topics
