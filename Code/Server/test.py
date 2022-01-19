@@ -21,28 +21,68 @@ def test_Led():
 
         
         
+# from Motor import *            
+# PWM=Motor()          
+# def test_Motor(): 
+#     try:
+#         PWM.setMotorModel(1000,1000,1000,1000)       #Forward
+#         print ("The car is moving forward")
+#         time.sleep(1)
+#         PWM.setMotorModel(-1000,-1000,-1000,-1000)   #Back
+#         print ("The car is going backwards")
+#         time.sleep(1)
+#         PWM.setMotorModel(-1500,-1500,2000,2000)       #Left 
+#         print ("The car is turning left")
+#         time.sleep(1)
+#         PWM.setMotorModel(2000,2000,-1500,-1500)       #Right 
+#         print ("The car is turning right")  
+#         time.sleep(1)
+#         PWM.setMotorModel(0,0,0,0)                   #Stop
+#         print ("\nEnd of program")
+#     except KeyboardInterrupt:
+#         PWM.setMotorModel(0,0,0,0)
+#         print ("\nEnd of program")
+
 from Motor import *            
-PWM=Motor()          
+roverMotors=Motor() 
+roverLed=Led()         
 def test_Motor(): 
     try:
-        PWM.setMotorModel(1000,1000,1000,1000)       #Forward
-        print ("The car is moving forward")
-        time.sleep(1)
-        PWM.setMotorModel(-1000,-1000,-1000,-1000)   #Back
-        print ("The car is going backwards")
-        time.sleep(1)
-        PWM.setMotorModel(-1500,-1500,2000,2000)       #Left 
-        print ("The car is turning left")
-        time.sleep(1)
-        PWM.setMotorModel(2000,2000,-1500,-1500)       #Right 
-        print ("The car is turning right")  
-        time.sleep(1)
-        PWM.setMotorModel(0,0,0,0)                   #Stop
+        roverLed.colorWipe(led.strip, Color(0, 255, 0))  # This will set every LED to green
+        roverMotors.setMotorModel(900,900,900,900)       #Forward 
+        time.sleep(1.5) #I won't comment the other sleeps but this causes the motor to continue running for 1.5 seconds
+        roverLed.colorWipe(led.strip, Color(255,255,0))  # sets the LED to yellow becasue we are turning
+        roverMotors.setMotorModel(1000,1000,-500,-500)   #Right turn 
+        time.sleep(.5)
+        roverLed.colorWipe(led.strip, Color(0, 255, 0))  #set the color to Green as we are moving forward again
+        roverMotors.setMotorModel(900,900,900,900)       #Forward 
+        time.sleep(.60)
+        roverLed.colorWipe(led.strip, Color(255,255,0))  # Set to yellow as we are turning
+        roverMotors.setMotorModel(-500,-500,1000,1000)   #Make left turn
+        time.sleep(.5)
+        roverLed.colorWipe(led.strip, Color(0, 255, 0))  # Set to green
+        roverMotors.setMotorModel(900,900,900,900)       #Forward 
+        time.sleep(.35)
+        roverLed.colorWipe(led.strip, Color(255,255,0))  # Yellow wipe
+        roverMotors.setMotorModel(-500,-500,1000,1000)   #Left 
+        time.sleep(.7)
+        roverLed.colorWipe(led.strip, Color(0, 255, 0))  # Green wipe
+        roverMotors.setMotorModel(900,900,900,900)       #Forward 
+        time.sleep(1.3)
+        roverLed.colorWipe(led.strip, Color(255,255,0))  # Yellow wipe
+        roverMotors.setMotorModel(1000,1000,-500,-500)   #Right 
+        time.sleep(.5)
+        roverLed.colorWipe(led.strip, Color(0, 255, 0))  # Set LED to Green
+        roverMotors.setMotorModel(1000,1000,900,900)     #Forward 
+        time.sleep(.6)
+        roverMotors.setMotorModel(-4500,-4500,4500,4500)  #DONUTS!!!
+        time.sleep(2)
+        roverLed.colorWipe(led.strip, Color(255, 0, 0))  # set to red because we are stopping
+        roverMotors.setMotorModel(0,0,0,0)
         print ("\nEnd of program")
     except KeyboardInterrupt:
         PWM.setMotorModel(0,0,0,0)
         print ("\nEnd of program")
-
 
 from Ultrasonic import *
 ultrasonic=Ultrasonic()                
