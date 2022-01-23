@@ -67,12 +67,14 @@ Write a custom LED sequence that will "chase" and LED around the rover 10 times 
  - Give a time gap between the light rotations or it will happen too fast
  - Loops are your friend
  - Each LED Slot is a numeric value and loops count in numbers - use this to your advantage
+ - Expert Level Hint - Learn About Arrays and see if you can use an Array of Integers (representing your LED slot) to your advantage
 
 ### Topics
 
  - Explain LED and RGB color scheme
  - Explain IF Statements
  - Explain looping
+ - Explain parameters
  - Explain the LED Slots and how GPIO works
  - Show the horrible code that freenove gave us
 

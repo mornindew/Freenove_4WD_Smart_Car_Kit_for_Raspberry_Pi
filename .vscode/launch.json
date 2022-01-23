@@ -84,5 +84,14 @@
             "sudo": true,
             "args": ["Chase"]
         },
+        {
+            "name": "Chase Beginner Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Code/Server/test.py",
+            "console": "integratedTerminal",
+            "sudo": true,
+            "args": ["Chase Beginner"]
+        },
     ]
 }

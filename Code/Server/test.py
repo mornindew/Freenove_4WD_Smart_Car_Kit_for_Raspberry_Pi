@@ -128,6 +128,108 @@ def test_ChaseLeds(primaryColor, chaseColor, number_of_laps_around_the_rover):
             if primary_slot>7:
                 primary_slot=0
 
+def test_ChaseBeginner(primaryColor, chaseColor, number_of_laps_around_the_rover):
+    roverLed=Led()   
+    empty_color = Color(0, 0, 0) #Empty Color
+    #each loop is a lap around the rover
+    for y in range (number_of_laps_around_the_rover):
+        #Set the first pixel and the chase pixels
+        roverLed.strip.setPixelColor(0, primaryColor)
+        roverLed.strip.setPixelColor(7, chaseColor)
+        roverLed.strip.setPixelColor(6, chaseColor) 
+        #Set the empty ones  
+        roverLed.strip.setPixelColor(1, empty_color)
+        roverLed.strip.setPixelColor(2, empty_color)
+        roverLed.strip.setPixelColor(3, empty_color)
+        roverLed.strip.setPixelColor(4, empty_color)
+        roverLed.strip.setPixelColor(5, empty_color)
+        roverLed.strip.show()
+        time.sleep(.1) 
+        #Slide everything over one
+        roverLed.strip.setPixelColor(1, primaryColor)
+        roverLed.strip.setPixelColor(0, chaseColor)
+        roverLed.strip.setPixelColor(7, chaseColor) 
+        #Set the empty ones  
+        roverLed.strip.setPixelColor(2, empty_color)
+        roverLed.strip.setPixelColor(3, empty_color)
+        roverLed.strip.setPixelColor(4, empty_color)
+        roverLed.strip.setPixelColor(6, empty_color)
+        roverLed.strip.setPixelColor(6, empty_color)
+        roverLed.strip.show()
+        time.sleep(.1) 
+        #Slide everything over one
+        roverLed.strip.setPixelColor(2, primaryColor)
+        roverLed.strip.setPixelColor(1, chaseColor)
+        roverLed.strip.setPixelColor(0, chaseColor) 
+        #Set the empty ones  
+        roverLed.strip.setPixelColor(3, empty_color)
+        roverLed.strip.setPixelColor(4, empty_color)
+        roverLed.strip.setPixelColor(5, empty_color)
+        roverLed.strip.setPixelColor(6, empty_color)
+        roverLed.strip.setPixelColor(7, empty_color)
+        roverLed.strip.show()
+        time.sleep(.1) 
+        #Slide everything over one
+        roverLed.strip.setPixelColor(3, primaryColor)
+        roverLed.strip.setPixelColor(2, chaseColor)
+        roverLed.strip.setPixelColor(1, chaseColor) 
+        #Set the empty ones  
+        roverLed.strip.setPixelColor(4, empty_color)
+        roverLed.strip.setPixelColor(5, empty_color)
+        roverLed.strip.setPixelColor(6, empty_color)
+        roverLed.strip.setPixelColor(7, empty_color)
+        roverLed.strip.setPixelColor(0, empty_color)
+        roverLed.strip.show()
+        time.sleep(.1) 
+        #Slide everything over one
+        roverLed.strip.setPixelColor(4, primaryColor)
+        roverLed.strip.setPixelColor(3, chaseColor)
+        roverLed.strip.setPixelColor(2, chaseColor) 
+        #Set the empty ones  
+        roverLed.strip.setPixelColor(5, empty_color)
+        roverLed.strip.setPixelColor(6, empty_color)
+        roverLed.strip.setPixelColor(7, empty_color)
+        roverLed.strip.setPixelColor(0, empty_color)
+        roverLed.strip.setPixelColor(1, empty_color)
+        roverLed.strip.show()
+        time.sleep(.1) 
+        #Slide everything over one
+        roverLed.strip.setPixelColor(5, primaryColor)
+        roverLed.strip.setPixelColor(4, chaseColor)
+        roverLed.strip.setPixelColor(3, chaseColor) 
+        #Set the empty ones  
+        roverLed.strip.setPixelColor(6, empty_color)
+        roverLed.strip.setPixelColor(7, empty_color)
+        roverLed.strip.setPixelColor(0, empty_color)
+        roverLed.strip.setPixelColor(1, empty_color)
+        roverLed.strip.setPixelColor(2, empty_color)
+        roverLed.strip.show()
+        time.sleep(.1)
+        #Slide everything over one
+        roverLed.strip.setPixelColor(6, primaryColor)
+        roverLed.strip.setPixelColor(5, chaseColor)
+        roverLed.strip.setPixelColor(4, chaseColor) 
+        #Set the empty ones  
+        roverLed.strip.setPixelColor(7, empty_color)
+        roverLed.strip.setPixelColor(0, empty_color)
+        roverLed.strip.setPixelColor(1, empty_color)
+        roverLed.strip.setPixelColor(2, empty_color)
+        roverLed.strip.setPixelColor(3, empty_color)
+        roverLed.strip.show()
+        time.sleep(.1)
+        #Slide everything over one
+        roverLed.strip.setPixelColor(7, primaryColor)
+        roverLed.strip.setPixelColor(6, chaseColor)
+        roverLed.strip.setPixelColor(5, chaseColor) 
+        #Set the empty ones  
+        roverLed.strip.setPixelColor(0, empty_color)
+        roverLed.strip.setPixelColor(1, empty_color)
+        roverLed.strip.setPixelColor(2, empty_color)
+        roverLed.strip.setPixelColor(3, empty_color)
+        roverLed.strip.setPixelColor(4, empty_color)
+        roverLed.strip.show()
+        time.sleep(.1)
+        
 from Ultrasonic import *
 ultrasonic=Ultrasonic()                
 def test_Ultrasonic():
@@ -240,6 +342,10 @@ if __name__ == '__main__':
         primaryColor = Color(128,0,128) #Purple
         chaseColor = Color(255,255,0) #Yellow
         test_ChaseLeds(primaryColor, chaseColor, 10)
+    elif sys.argv[1] == 'Chase Beginner':
+        primaryColor = Color(128,0,128) #Purple
+        chaseColor = Color(255,255,0) #Yellow
+        test_ChaseBeginner(primaryColor, chaseColor, 10)
     else:
         print("Not a valid test case.")
         exit() 
