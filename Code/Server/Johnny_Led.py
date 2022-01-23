@@ -13,7 +13,7 @@ class JohnnyLed(Led):
         key functionality that we need
     """
 
-    def display_led(self,index,R,G,B):
+    def display_led(self, index, R, G, B):
         """I wrote this to display LED.  I found it to be much simpler than 
         the stuff that came with the library
 
@@ -23,9 +23,13 @@ class JohnnyLed(Led):
             G ([int]): [This is the 256 (0-255) integer value that represents its green color]
             B ([int]): [This is the 256 (0-255) integer value that represents its blue color]
         """
-        self.strip.setPixelColor(index,Color(R,G,B))
+        self.strip.setPixelColor(index, Color(R, G, B))
         self.strip.show()
 
+
+    def display_led(self, index, R, G, B):
+        self.strip.setPixelColor(index, Color(R, G, B))
+        self.strip.show()
     def random_led_display(self, number_of_intervals):
         for x in range(number_of_intervals):
             red = random.randint(0,255)

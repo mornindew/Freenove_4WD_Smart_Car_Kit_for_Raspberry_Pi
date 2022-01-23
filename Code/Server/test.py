@@ -3,14 +3,32 @@ from Led import *
 led=Led()
 def test_Led():
     try:
-        led.ledIndex(0x01,255,0,0)      #Red
-        led.ledIndex(0x02,255,125,0)    #orange
-        led.ledIndex(0x04,255,255,0)    #yellow
-        led.ledIndex(0x08,0,255,0)      #green
-        led.ledIndex(0x10,0,255,255)    #cyan-blue
-        led.ledIndex(0x20,0,0,255)      #blue
-        led.ledIndex(0x40,128,0,128)    #purple
-        led.ledIndex(0x80,255,255,255)  #white'''
+        # led.ledIndex(0x01,255,0,0)      #Red
+        # led.ledIndex(0x02,255,125,0)    #orange
+        # led.ledIndex(0x04,255,255,0)    #yellow
+        # led.ledIndex(0x08,0,255,0)      #green
+        # led.ledIndex(0x10,0,255,255)    #cyan-blue
+        # led.ledIndex(0x20,0,0,255)      #blue
+        # led.ledIndex(0x40,128,0,128)    #purple
+        #led.ledIndex(0x80,255,255,255)  #white'''
+
+        led.strip.setPixelColor(0, Color(255,0,0)) #Red
+        led.strip.show()
+        led.strip.setPixelColor(1, Color(255,125,0)) #Orange
+        led.strip.show()
+        led.strip.setPixelColor(2, Color(255,255,0)) #Yellow
+        led.strip.show()
+        led.strip.setPixelColor(3, Color(0,255,0)) #Green
+        led.strip.show()
+        led.strip.setPixelColor(4, Color(0,255,255)) #cyan-blue
+        led.strip.show()
+        led.strip.setPixelColor(5, Color(0,0,255)) #blue
+        led.strip.show()
+        led.strip.setPixelColor(6, Color(128,0,128)) #purple
+        led.strip.show()
+        led.strip.setPixelColor(7, Color(255,255,255)) #white
+        led.strip.show()
+
         print ("The LED has been lit, the color is red orange yellow green cyan-blue blue white")
         time.sleep(3)               #wait 3s
         led.colorWipe(led.strip, Color(0,0,0))  #turn off the light
@@ -24,33 +42,38 @@ roverMotors=Motor()
 roverLed=Led()         
 def test_Motor(): 
     try:
-        roverLed.colorWipe(led.strip, Color(0, 255, 0))  # This will set every LED to green
-        roverMotors.setMotorModel(900,900,900,900)       #Forward 
-        time.sleep(1.5) #I won't comment the other sleeps but this causes the motor to continue running for 1.5 seconds
-        roverLed.colorWipe(led.strip, Color(255,255,0))  # sets the LED to yellow becasue we are turning
+        roverLed.colorWipe(led.strip, Color(255, 0, 0),0)  # set to red because we are stopped
+        time.sleep(1)
+        roverLed.colorWipe(led.strip, Color(255,255,0),0)  # Set to yellow to make a red --> yellow --> Green
+        time.sleep(.5)
+        roverLed.colorWipe(led.strip, Color(0, 255, 0),0)  # Set to green
+        roverMotors.setMotorModel(600,600,600,600)       #Forward
+        time.sleep(3.4) #I won't comment the other sleeps but this causes the motor to continue running for 1.5 seconds
+        roverLed.colorWipe(led.strip, Color(255,255,0),0)  # sets the LED to yellow becasue we are turning
         roverMotors.setMotorModel(1000,1000,-500,-500)   #Right turn 
-        time.sleep(.5)
-        roverLed.colorWipe(led.strip, Color(0, 255, 0))  #set the color to Green as we are moving forward again
-        roverMotors.setMotorModel(900,900,900,900)       #Forward 
-        time.sleep(.60)
-        roverLed.colorWipe(led.strip, Color(255,255,0))  # Set to yellow as we are turning
+        time.sleep(1.60)
+        roverLed.colorWipe(led.strip, Color(0, 255, 0),0)  #set the color to Green as we are moving forward again
+        roverMotors.setMotorModel(600,600,600,600)       #Forward 
+        time.sleep(1.55)
+        roverLed.colorWipe(led.strip, Color(255,255,0),0)  # Set to yellow as we are turning
         roverMotors.setMotorModel(-500,-500,1000,1000)   #Make left turn
-        time.sleep(.5)
-        roverLed.colorWipe(led.strip, Color(0, 255, 0))  # Set to green
-        roverMotors.setMotorModel(900,900,900,900)       #Forward 
-        time.sleep(.35)
-        roverLed.colorWipe(led.strip, Color(255,255,0))  # Yellow wipe
+        time.sleep(1.60)
+        roverLed.colorWipe(led.strip, Color(0, 255, 0),0)  # Set to green
+        roverMotors.setMotorModel(600,600,600,600)       #Forward 
+        time.sleep(1.40)
+        roverLed.colorWipe(led.strip, Color(255,255,0),0)  # Yellow wipe
         roverMotors.setMotorModel(-500,-500,1000,1000)   #Left 
-        time.sleep(.7)
-        roverLed.colorWipe(led.strip, Color(0, 255, 0))  # Green wipe
-        roverMotors.setMotorModel(900,900,900,900)       #Forward 
-        time.sleep(1.3)
-        roverLed.colorWipe(led.strip, Color(255,255,0))  # Yellow wipe
+        time.sleep(1.60)
+        roverLed.colorWipe(led.strip, Color(0, 255, 0),0)  # Green wipe
+        roverMotors.setMotorModel(600,600,600,600)       #Forward 
+        time.sleep(1.75)
+        roverLed.colorWipe(led.strip, Color(255,255,0),0)  # Yellow wipe
         roverMotors.setMotorModel(1000,1000,-500,-500)   #Right 
-        time.sleep(.5)
+        time.sleep(1.60)
         roverLed.colorWipe(led.strip, Color(0, 255, 0))  # Set LED to Green
-        roverMotors.setMotorModel(1000,1000,900,900)     #Forward 
-        time.sleep(.6)
+        roverMotors.setMotorModel(600,600,600,600)     #Forward 
+        time.sleep(1)
+        roverLed.colorWipe(led.strip, Color(255,255,0),0)  # Yellow wipe
         roverMotors.setMotorModel(-4500,-4500,4500,4500)  #DONUTS!!!
         time.sleep(2)
         roverLed.colorWipe(led.strip, Color(255, 0, 0))  # set to red because we are stopping
@@ -59,6 +82,9 @@ def test_Motor():
     except KeyboardInterrupt:
         PWM.setMotorModel(0,0,0,0)
         print ("\nEnd of program")
+
+def test_ChaseLeds(name):
+    print("Called my function:  "+name)
 
 from Ultrasonic import *
 ultrasonic=Ultrasonic()                
@@ -168,6 +194,8 @@ if __name__ == '__main__':
         test_Adc()  
     elif sys.argv[1] == 'Buzzer':   
         test_Buzzer() 
+    elif sys.argv[1] == 'Chase':
+        test_ChaseLeds("Pickles")
     else:
         print("Not a valid test case.")
         exit() 
