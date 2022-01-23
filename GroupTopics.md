@@ -59,11 +59,19 @@ Solving the Maze:
 The goal of this mission is to become familiar with the LED code and how it works.  We will pull apart the LED code and better understand how it works.
 
 ### Mission Challenge
-Write a custom LED sequence that will "chase" and LED around the rover.   The primary light will be chased by two other lights (e.g. red will be chased by two green lights).  Every time that the red moves to the next spot then the green lights will also move.
+Write a custom LED sequence that will "chase" and LED around the rover 10 times (not 100 LEDs, 100 times around the rover).   The primary light will be chased by two other lights (e.g. red will be chased by two green lights).  Every time that the red moves to the next spot then the green lights will also move.
+
+#### Hints
+ - Every LED is in one of three states at all times (primary color, secondary color, or off)
+ - multiple changes can be made to the leds before "showing them"
+ - Give a time gap between the light rotations or it will happen too fast
+ - Loops are your friend
+ - Each LED Slot is a numeric value and loops count in numbers - use this to your advantage
 
 ### Topics
 
  - Explain LED and RGB color scheme
+ - Explain IF Statements
  - Explain looping
  - Explain the LED Slots and how GPIO works
  - Show the horrible code that freenove gave us

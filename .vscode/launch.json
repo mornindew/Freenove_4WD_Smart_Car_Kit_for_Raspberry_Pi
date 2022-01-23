@@ -75,5 +75,14 @@
             "sudo": true,
             "args": ["Buzzer"]
         },
+        {
+            "name": "Chase Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Code/Server/test.py",
+            "console": "integratedTerminal",
+            "sudo": true,
+            "args": ["Chase"]
+        },
     ]
 }

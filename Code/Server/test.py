@@ -12,22 +12,32 @@ def test_Led():
         # led.ledIndex(0x40,128,0,128)    #purple
         #led.ledIndex(0x80,255,255,255)  #white'''
 
-        led.strip.setPixelColor(0, Color(255,0,0)) #Red
-        led.strip.show()
-        led.strip.setPixelColor(1, Color(255,125,0)) #Orange
-        led.strip.show()
-        led.strip.setPixelColor(2, Color(255,255,0)) #Yellow
-        led.strip.show()
-        led.strip.setPixelColor(3, Color(0,255,0)) #Green
-        led.strip.show()
-        led.strip.setPixelColor(4, Color(0,255,255)) #cyan-blue
-        led.strip.show()
-        led.strip.setPixelColor(5, Color(0,0,255)) #blue
-        led.strip.show()
-        led.strip.setPixelColor(6, Color(128,0,128)) #purple
-        led.strip.show()
-        led.strip.setPixelColor(7, Color(255,255,255)) #white
-        led.strip.show()
+        #Setting them individually
+
+        # led.strip.setPixelColor(0, Color(255,0,0)) #Red
+        # led.strip.show()
+        # led.strip.setPixelColor(1, Color(255,125,0)) #Orange
+        # led.strip.show()
+        # led.strip.setPixelColor(2, Color(255,255,0)) #Yellow
+        # led.strip.show()
+        # led.strip.setPixelColor(3, Color(0,255,0)) #Green
+        # led.strip.show()
+        # led.strip.setPixelColor(4, Color(0,255,255)) #cyan-blue
+        # led.strip.show()
+        # led.strip.setPixelColor(5, Color(0,0,255)) #blue
+        # led.strip.show()
+        # led.strip.setPixelColor(6, Color(128,0,128)) #purple
+        # led.strip.show()
+        # led.strip.setPixelColor(7, Color(255,255,255)) #white
+        # led.strip.show()
+
+        led.colorWipe(led.strip, Color(0,0,0))  #turn off the light
+        #Setting in a loop
+        for x in range (8):
+            led.strip.setPixelColor(x, Color(255,0,0)) #Red
+            led.strip.show()
+            time.sleep(1)
+
 
         print ("The LED has been lit, the color is red orange yellow green cyan-blue blue white")
         time.sleep(3)               #wait 3s
@@ -83,8 +93,40 @@ def test_Motor():
         PWM.setMotorModel(0,0,0,0)
         print ("\nEnd of program")
 
-def test_ChaseLeds(name):
-    print("Called my function:  "+name)
+def test_ChaseLeds(primaryColor, chaseColor, number_of_laps_around_the_rover):
+    roverLed=Led()   
+    empty_color = Color(0, 0, 0) #Empty Color
+    #each loop is a lap around the rover
+    for y in range (number_of_laps_around_the_rover):
+        primary_slot = 0
+        #Each loop is a single Switch in the LED
+        for x in range(8):
+            slots = [0, 1, 2, 3, 4, 5, 6, 7]
+            #Determine the chaser slots
+            first_chaser_slot = primary_slot -1
+            if first_chaser_slot<0:
+                first_chaser_slot += 8
+            second_chaser_slot = primary_slot -2
+            if second_chaser_slot<0:
+                second_chaser_slot+=8
+            #set the pixels
+            roverLed.strip.setPixelColor(primary_slot, primaryColor)
+            roverLed.strip.setPixelColor(first_chaser_slot, chaseColor)
+            roverLed.strip.setPixelColor(second_chaser_slot, chaseColor)
+            #Wipe the other LEDs
+            #Remove from array
+            slots.remove(primary_slot)
+            slots.remove(first_chaser_slot)
+            slots.remove(second_chaser_slot)
+            #Loop through the rest of the array and set them to blank
+            for empty_slot in slots:
+                roverLed.strip.setPixelColor(empty_slot, empty_color)
+            roverLed.strip.show()
+            time.sleep(.1) 
+            #increment the counter
+            primary_slot= primary_slot+1
+            if primary_slot>7:
+                primary_slot=0
 
 from Ultrasonic import *
 ultrasonic=Ultrasonic()                
@@ -195,7 +237,9 @@ if __name__ == '__main__':
     elif sys.argv[1] == 'Buzzer':   
         test_Buzzer() 
     elif sys.argv[1] == 'Chase':
-        test_ChaseLeds("Pickles")
+        primaryColor = Color(128,0,128) #Purple
+        chaseColor = Color(255,255,0) #Yellow
+        test_ChaseLeds(primaryColor, chaseColor, 10)
     else:
         print("Not a valid test case.")
         exit() 
