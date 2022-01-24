@@ -59,19 +59,26 @@ Solving the Maze:
 The goal of this mission is to become familiar with the LED code and how it works.  We will pull apart the LED code and better understand how it works.
 
 ### Mission Challenge
-Write a custom LED sequence that will "chase" and LED around the rover 10 times (not 100 LEDs, 100 times around the rover).   The primary light will be chased by two other lights (e.g. red will be chased by two green lights).  Every time that the red moves to the next spot then the green lights will also move.
+Write a custom LED sequence that will "chase" an LED around the rover 10 times (not 10 LEDs, 10 times around the rover).   The primary light will be chased by two other lights (e.g. red will be chased by two green lights).  Every time that the red moves to the next spot then the green lights will also move.
 
 Break this mission into two parts:
  - Part One - do the mission with a single loop.  One loop per revolution around the car
  - Part Two - Do this mission with an embedded loop.   A loop for a revolution and then a loop within it to iterate the lights
 
 #### Hints
- - Every LED is in one of three states at all times (primary color, secondary color, or off)
+ - Every LED is in one of three states at all times (primary color, chase color, or off)
  - multiple changes can be made to the leds before "showing them"
  - Give a time gap between the light rotations or it will happen too fast
  - Loops are your friend
  - Each LED Slot is a numeric value and loops count in numbers - use this to your advantage
  - Expert Level Hint - Learn About Arrays and see if you can use an Array of Integers (representing your LED slot) to your advantage
+
+Solving the LED Chase: 
+
+ - Solving with only one loop - https://github.com/mornindew/Freenove_4WD_Smart_Car_Kit_for_Raspberry_Pi/blob/1d4159dec9ba505444f4ca2b9858b46fb2e943ae/Code/Server/test.py#L166
+ - Solving with nested loops - https://github.com/mornindew/Freenove_4WD_Smart_Car_Kit_for_Raspberry_Pi/blob/1d4159dec9ba505444f4ca2b9858b46fb2e943ae/Code/Server/test.py#L132 
+
+<img src='Picture/mission5.gif' width='25%'/>
 
 ### Topics
 
@@ -81,13 +88,6 @@ Break this mission into two parts:
  - Explain parameters
  - Explain the LED Slots and how GPIO works
  - Show the horrible code that freenove gave us
-
-### Example function for cleaner LED
-``
-def  display_led(self, index, R, G, B):
-	self.strip.setPixelColor(index, Color(R, G, B))
-	self.strip.show()
-``
 
 ## Mission 6 - Name your rover
 This mission is to move out of running things in the test classes and actually create a class to represent your rover.
