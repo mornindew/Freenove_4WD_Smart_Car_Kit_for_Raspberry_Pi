@@ -88,8 +88,8 @@ Solving the LED Chase:
  - Explain IF Statements
  - Explain looping
  - Explain parameters
+ - Show creating a new function
  - Explain the LED Slots and how GPIO works
- - Show the horrible code that freenove gave us
 
 ## Mission 6 - Name your rover
 This mission is to move out of running things in the test classes and actually create a class to represent your rover.
