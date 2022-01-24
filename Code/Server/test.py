@@ -129,7 +129,7 @@ def test_ChaseLeds(primaryColor, chaseColor, number_of_laps_around_the_rover):
                 primary_slot=0
 
 def test_ChaseBeginner(primaryColor, chaseColor, number_of_laps_around_the_rover):
-    roverLed=Led()   
+    roverLed=Led()      
     empty_color = Color(0, 0, 0) #Empty Color
     #each loop is a lap around the rover
     for y in range (number_of_laps_around_the_rover):
@@ -229,7 +229,7 @@ def test_ChaseBeginner(primaryColor, chaseColor, number_of_laps_around_the_rover
         roverLed.strip.setPixelColor(4, empty_color)
         roverLed.strip.show()
         time.sleep(.1)
-        
+
 from Ultrasonic import *
 ultrasonic=Ultrasonic()                
 def test_Ultrasonic():
