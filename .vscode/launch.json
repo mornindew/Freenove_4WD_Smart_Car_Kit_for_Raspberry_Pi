@@ -93,5 +93,22 @@
             "sudo": true,
             "args": ["Chase Beginner"]
         },
+        {
+            "name": "Chase Intermediate Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Code/Server/test.py",
+            "console": "integratedTerminal",
+            "sudo": true,
+            "args": ["Chase Intermediate"]
+        },
+        {
+            "name": "Bluetooth Controller",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Code/Server/Johnny_Controller.py",
+            "console": "integratedTerminal",
+            "sudo": true,
+        },
     ]
 }

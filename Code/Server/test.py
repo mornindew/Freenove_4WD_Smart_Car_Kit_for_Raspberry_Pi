@@ -1,4 +1,5 @@
 import time
+import datetime
 from Led import *
 led=Led()
 def test_Led():
@@ -121,6 +122,40 @@ def test_ChaseLeds(primaryColor, chaseColor, number_of_laps_around_the_rover):
             #Loop through the rest of the array and set them to blank
             for empty_slot in slots:
                 roverLed.strip.setPixelColor(empty_slot, empty_color)
+            roverLed.strip.show()
+            time.sleep(.1) 
+            #increment the counter
+            primary_slot= primary_slot+1
+            if primary_slot>7:
+                primary_slot=0
+
+def test_ChaseIntermediate(primaryColor, chaseColor, number_of_laps_around_the_rover):
+    roverLed=Led()   
+    empty_color = Color(0, 0, 0) #Empty Color
+    #each loop is a lap around the rover
+    for y in range (number_of_laps_around_the_rover):
+        primary_slot = 0
+        #Each loop is a single Switch in the LED
+        for x in range(8):
+            #Determine the chaser slots
+            first_chaser_slot = primary_slot -1
+            if first_chaser_slot<0:
+                first_chaser_slot += 8
+            second_chaser_slot = primary_slot -2
+            if second_chaser_slot<0:
+                second_chaser_slot+=8
+            #set the pixels
+            roverLed.strip.setPixelColor(primary_slot, primaryColor)
+            roverLed.strip.setPixelColor(first_chaser_slot, chaseColor)
+            roverLed.strip.setPixelColor(second_chaser_slot, chaseColor)
+            #Wipe the other LEDs
+            #This is done by adding to the primary
+            for y in range (1, 6):
+                empty_slot = primary_slot+y
+                if empty_slot>7:
+                    empty_slot-=8
+                roverLed.strip.setPixelColor(empty_slot, empty_color)
+
             roverLed.strip.show()
             time.sleep(.1) 
             #increment the counter
@@ -339,13 +374,32 @@ if __name__ == '__main__':
     elif sys.argv[1] == 'Buzzer':   
         test_Buzzer() 
     elif sys.argv[1] == 'Chase':
+        start_time = datetime.datetime.now()
         primaryColor = Color(128,0,128) #Purple
         chaseColor = Color(255,255,0) #Yellow
         test_ChaseLeds(primaryColor, chaseColor, 10)
+        end_time = datetime.datetime.now()
+        time_diff = (end_time - start_time)
+        execution_time = time_diff.total_seconds() * 1000
+        print("Array Time :"+str(execution_time))
     elif sys.argv[1] == 'Chase Beginner':
+        start_time = datetime.datetime.now()
         primaryColor = Color(128,0,128) #Purple
         chaseColor = Color(255,255,0) #Yellow
         test_ChaseBeginner(primaryColor, chaseColor, 10)
+        end_time = datetime.datetime.now()
+        time_diff = (end_time - start_time)
+        execution_time = time_diff.total_seconds() * 1000
+        print("Beginner Chase Time :"+str(execution_time))
+    elif sys.argv[1] == 'Chase Intermediate':
+        start_time = datetime.datetime.now()
+        primaryColor = Color(128,0,128) #Purple
+        chaseColor = Color(255,255,0) #Yellow
+        test_ChaseIntermediate(primaryColor, chaseColor, 10)
+        end_time = datetime.datetime.now()
+        time_diff = (end_time - start_time)
+        execution_time = time_diff.total_seconds() * 1000
+        print("Intermediate Chase Time :"+str(execution_time))
     else:
         print("Not a valid test case.")
         exit() 

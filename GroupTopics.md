@@ -61,6 +61,10 @@ The goal of this mission is to become familiar with the LED code and how it work
 ### Mission Challenge
 Write a custom LED sequence that will "chase" and LED around the rover 10 times (not 100 LEDs, 100 times around the rover).   The primary light will be chased by two other lights (e.g. red will be chased by two green lights).  Every time that the red moves to the next spot then the green lights will also move.
 
+Break this mission into two parts:
+ - Part One - do the mission with a single loop.  One loop per revolution around the car
+ - Part Two - Do this mission with an embedded loop.   A loop for a revolution and then a loop within it to iterate the lights
+
 #### Hints
  - Every LED is in one of three states at all times (primary color, secondary color, or off)
  - multiple changes can be made to the leds before "showing them"

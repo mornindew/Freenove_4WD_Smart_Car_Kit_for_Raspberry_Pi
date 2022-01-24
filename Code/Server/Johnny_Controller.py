@@ -47,9 +47,12 @@ class JohnnyMotorController:
                         #construct the engine if not constructed
                         if self.connectedMotor == None:
                             self.connectedMotor=JohnyMotor()   
-                            self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),75)
-                            self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),75)
-                            self.ledController.colorWipe(self.ledController.strip, Color(0,255,0),75)
+                            self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),75) #RED
+                            self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),75) #Yellow
+                            self.ledController.colorWipe(self.ledController.strip, Color(0,255,0),75) #GREEN
+                elif event.code == self.bBtn:
+                    if event.value == 1:
+                        self.ledController.random_led_display(5)
                 elif event.code == self.turboBtn:
                     if event.value == 1: #pressed
                         if self.turbo==False:
@@ -61,14 +64,18 @@ class JohnnyMotorController:
                 elif event.code == self.rtBtn:
                     if self.connectedMotor!=None:
                         if event.value ==1:
+                            self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),0) #Yellow
                             self.connectedMotor.set_all_motors(4500,4500,-4500,-4500)
                         elif event.value == 0:
+                            self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),0) #RED
                             self.connectedMotor.set_all_motors(0,0,0,0)
                 elif event.code == self.tlBtn:
                     if self.connectedMotor!=None:
                         if event.value ==1:
+                            self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),0) #Yellow
                             self.connectedMotor.set_all_motors(-4500,-4500,4500,4500)
                         elif event.value == 0:
+                            self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),0) #RED
                             self.connectedMotor.set_all_motors(0,0,0,0)
                 keyEvent = categorize(event)
                 print(keyEvent)
@@ -83,10 +90,13 @@ class JohnnyMotorController:
                         print("No Connected Motor")
                     else:
                         if event.value == -1: # Left
+                            self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),0) #Yellow
                             self.connectedMotor.set_all_motors(-1000*self.multiplier,-1000*self.multiplier,1000*self.multiplier,1000*self.multiplier)
                         elif event.value == 1: # Right
+                            self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),0) #Yellow
                             self.connectedMotor.set_all_motors(1000*self.multiplier,1000*self.multiplier,-1000*self.multiplier,-1000*self.multiplier)
                         else:
+                            self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),0) #RED
                             self.connectedMotor.set_all_motors(0,0,0,0)
                 elif event.code == 17: # DPAD
                     if self.connectedMotor==None:
@@ -94,10 +104,13 @@ class JohnnyMotorController:
                     else:
                         print("[inputs]", event.code, event.value)
                         if event.value == -1: # UP
+                            self.ledController.colorWipe(self.ledController.strip, Color(0,255,0),0) #GREEN
                             self.connectedMotor.set_all_motors(1000*self.multiplier,1000*self.multiplier,1000*self.multiplier,1000*self.multiplier)
                         elif event.value == 1: # DOWN
+                            self.ledController.colorWipe(self.ledController.strip, Color(0,255,0),0) #GREEN
                             self.connectedMotor.set_all_motors(-1000*self.multiplier,-1000*self.multiplier,-1000*self.multiplier,-1000*self.multiplier)
                         else:
+                            self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),0) #RED
                             self.connectedMotor.set_all_motors(0,0,0,0)
                 else:
                     print(event.code)
