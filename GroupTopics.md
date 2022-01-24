@@ -75,8 +75,8 @@ Break this mission into two parts:
 
 Solving the LED Chase: 
 
- - Solving with only one loop - https://github.com/mornindew/Freenove_4WD_Smart_Car_Kit_for_Raspberry_Pi/blob/1d4159dec9ba505444f4ca2b9858b46fb2e943ae/Code/Server/test.py#L166
- - Solving with nested loops - https://github.com/mornindew/Freenove_4WD_Smart_Car_Kit_for_Raspberry_Pi/blob/1d4159dec9ba505444f4ca2b9858b46fb2e943ae/Code/Server/test.py#L132 
+ - Solving with only one loop - https://github.com/mornindew/Freenove_4WD_Smart_Car_Kit_for_Raspberry_Pi/blob/1d4159dec9ba505444f4ca2b9858b46fb2e943ae/Code/Server/test.py#L166-L266
+ - Solving with nested loops - https://github.com/mornindew/Freenove_4WD_Smart_Car_Kit_for_Raspberry_Pi/blob/1d4159dec9ba505444f4ca2b9858b46fb2e943ae/Code/Server/test.py#L132-L164 
 
 <img src='Picture/mission5.gif' width='25%'/>
 
