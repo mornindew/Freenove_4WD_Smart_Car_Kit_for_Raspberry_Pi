@@ -13,6 +13,7 @@ class JohnnyMotorController:
     turboBtn = 317
     rtBtn = 311
     tlBtn = 310
+    startBtn = 313
 
     def __init__(self):
         #creates object 'gamepad' to store the data
@@ -26,102 +27,134 @@ class JohnnyMotorController:
         self.turbo=False
         self.multiplier = 1
 
-
-    def run(self):
+    def listenForEvents(self):
         #evdev takes care of polling the controller in a loop
         for event in self.gamepad.read_loop():
-
+            #determine the event type
             if event.type == ecodes.EV_KEY:
-                if event.code == self.aBtn: #light show
-                    if event.value == 1:
-                        self.ledController.chase_color_around(Color(255, 0, 0), Color(0, 0, 255),10)
+                #determine the specific key that was pressed
+                if event.code == self.aBtn: 
+                    self.__chaseColorButtonPress__(event)
                 elif event.code == self.xBtn: #take a picture
-                    #only do it when pressed
-                    if event.value == 1:
-                        camera = JohnnyCamera()
-                        ts = str(time.time())
-                        camera.takeAPicture(ts + "_picture")
-                        camera.destroy()
+                    self.__takeAPicture__(event)
                 elif event.code == self.yBtn:
-                    if event.value == 1: #only when pressed
-                        #construct the engine if not constructed
-                        if self.connectedMotor == None:
-                            self.connectedMotor=JohnyMotor()   
-                            self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),75) #RED
-                            self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),75) #Yellow
-                            self.ledController.colorWipe(self.ledController.strip, Color(0,255,0),75) #GREEN
+                    print("Empty Y button")
                 elif event.code == self.bBtn:
-                    if event.value == 1:
-                        self.ledController.random_led_display(5)
+                    self.__randomLED__(event)
                 elif event.code == self.turboBtn:
-                    if event.value == 1: #pressed
-                        if self.turbo==False:
-                            self.turbo = True
-                            self.multiplier=4
-                        else:
-                            self.turbo = False
-                            self.multiplier=1
+                    self.__turboEnableDisable__(event)
                 elif event.code == self.rtBtn:
-                    if self.connectedMotor!=None:
-                        if event.value ==1:
-                            self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),0) #Yellow
-                            self.connectedMotor.set_all_motors(4500,4500,-4500,-4500)
-                        elif event.value == 0:
-                            self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),0) #RED
-                            self.connectedMotor.set_all_motors(0,0,0,0)
+                    self.__rightDonuts__(event)
                 elif event.code == self.tlBtn:
-                    if self.connectedMotor!=None:
-                        if event.value ==1:
-                            self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),0) #Yellow
-                            self.connectedMotor.set_all_motors(-4500,-4500,4500,4500)
-                        elif event.value == 0:
-                            self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),0) #RED
-                            self.connectedMotor.set_all_motors(0,0,0,0)
-                keyEvent = categorize(event)
-                print(keyEvent)
-                # print("####")
-            elif event.type == ecodes.EV_ABS:
-                if ecodes.ABS[event.code] == 'ABS_Y':
-                    print("Y VALUE: "+str(event.value))
-                elif ecodes.ABS[event.code] == 'ABS_X':
-                    print("X VALUE: "+str(event.value))
-                elif event.code == 16:
-                    if self.connectedMotor==None:    
-                        print("No Connected Motor")
-                    else:
-                        if event.value == -1: # Left
-                            self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),0) #Yellow
-                            self.connectedMotor.set_all_motors(-1000*self.multiplier,-1000*self.multiplier,1000*self.multiplier,1000*self.multiplier)
-                        elif event.value == 1: # Right
-                            self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),0) #Yellow
-                            self.connectedMotor.set_all_motors(1000*self.multiplier,1000*self.multiplier,-1000*self.multiplier,-1000*self.multiplier)
-                        else:
-                            self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),0) #RED
-                            self.connectedMotor.set_all_motors(0,0,0,0)
-                elif event.code == 17: # DPAD
-                    if self.connectedMotor==None:
-                        print("No Connected Motor")
-                    else:
-                        print("[inputs]", event.code, event.value)
-                        if event.value == -1: # UP
-                            self.ledController.colorWipe(self.ledController.strip, Color(0,255,0),0) #GREEN
-                            self.connectedMotor.set_all_motors(1000*self.multiplier,1000*self.multiplier,1000*self.multiplier,1000*self.multiplier)
-                        elif event.value == 1: # DOWN
-                            self.ledController.colorWipe(self.ledController.strip, Color(0,255,0),0) #GREEN
-                            self.connectedMotor.set_all_motors(-1000*self.multiplier,-1000*self.multiplier,-1000*self.multiplier,-1000*self.multiplier)
-                        else:
-                            self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),0) #RED
-                            self.connectedMotor.set_all_motors(0,0,0,0)
+                    self.__leftDonuts__(event)
+                elif event.code == self.startBtn:
+                    self.__startMotor__(event)
                 else:
-                    print(event.code)
-                    if event.value == 0:
-                        print("LEFT")
-                    elif event.value == 255:
-                        print("RIGHT")
-                    else:
-                        print(event.value)
-                        print("release")
+                    self.__printEvent__(event)
+
+            elif event.type == ecodes.EV_ABS:
+                if ecodes.ABS[event.code] == 'ABS_Y': #Left Joystick
+                    print("Y VALUE: "+str(event.value))
+                elif ecodes.ABS[event.code] == 'ABS_X': #Left Joystick
+                    print("X VALUE: "+str(event.value))
+                    print("[inputs]", event.code, event.value)
+                elif ecodes.ABS[event.code] == 'ABS_RY': #Left Joystick
+                    print("RY VALUE: "+str(event.value))
+                elif ecodes.ABS[event.code] == 'ABS_RX': #Left Joystick
+                    print("RX VALUE: "+str(event.value))
+                elif event.code == 16:
+                    self.__directionalPadLeftRight__(event)
+                elif event.code == 17: # DPAD
+                    self.__directionalPadUpDown__(event)
+                else:
+                    self.__printEvent__(event)
+
+    #Private Methods
+    def __chaseColorButtonPress__(self, event):
+        if event.value == 1:
+            self.ledController.chase_color_around(Color(255, 0, 0), Color(0, 0, 255),10)
+    
+    def __takeAPicture__(self, event):
+        #only do it when pressed
+        if event.value == 1:
+            camera = JohnnyCamera()
+            ts = str(time.time())
+            camera.takeAPicture(ts + "_picture")
+            camera.destroy()
+
+    def __randomLED__(self, event):
+        if event.value == 1: #button pressed
+            self.ledController.random_led_display(5)
+
+    def __turboEnableDisable__(self, event):
+        if event.value == 1: #pressed
+            if self.turbo==False:
+                self.turbo = True
+                self.multiplier=4
+            else:
+                self.turbo = False
+                self.multiplier=1
+
+    def __rightDonuts__(self, event):
+        if self.connectedMotor!=None: #only when the Motor is enabled
+            if event.value ==1: # button pressed
+                self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),0) #Yellow
+                self.connectedMotor.set_all_motors(4500,4500,-4500,-4500)
+            elif event.value == 0: # button depressed
+                self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),0) #RED
+                self.connectedMotor.set_all_motors(0,0,0,0)
+
+    def __leftDonuts__(self, event):
+        if self.connectedMotor!=None:
+            if event.value ==1:
+                self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),0) #Yellow
+                self.connectedMotor.set_all_motors(-4500,-4500,4500,4500)
+            elif event.value == 0:
+                self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),0) #RED
+                self.connectedMotor.set_all_motors(0,0,0,0)
+
+    def __startMotor__(self, event):
+        if event.value == 1: #only when pressed
+            #construct the engine if not constructed
+            if self.connectedMotor == None:
+                self.connectedMotor=JohnyMotor()   
+                self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),75) #RED
+                self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),75) #Yellow
+                self.ledController.colorWipe(self.ledController.strip, Color(0,255,0),75) #GREEN
+
+    def __printEvent__(self,event):
+        keyEvent = categorize(event)
+        print("Unhandled Key Press: " +str(keyEvent))
+        print("[inputs]", event.code, event.value)
+
+    def __directionalPadLeftRight__(self, event):
+        if self.connectedMotor==None:    
+            print("No Connected Motor")
+        else:
+            if event.value == -1: # Left
+                self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),0) #Yellow
+                self.connectedMotor.set_all_motors(-1000*self.multiplier,-1000*self.multiplier,1000*self.multiplier,1000*self.multiplier)
+            elif event.value == 1: # Right
+                self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),0) #Yellow
+                self.connectedMotor.set_all_motors(1000*self.multiplier,1000*self.multiplier,-1000*self.multiplier,-1000*self.multiplier)
+            else:
+                self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),0) #RED
+                self.connectedMotor.set_all_motors(0,0,0,0)
+    
+    def __directionalPadUpDown__(self,event):
+        if self.connectedMotor==None:
+            print("No Connected Motor")
+        else:
+            if event.value == -1: # UP
+                self.ledController.colorWipe(self.ledController.strip, Color(0,255,0),0) #GREEN
+                self.connectedMotor.set_all_motors(1000*self.multiplier,1000*self.multiplier,1000*self.multiplier,1000*self.multiplier)
+            elif event.value == 1: # DOWN
+                self.ledController.colorWipe(self.ledController.strip, Color(0,255,0),0) #GREEN
+                self.connectedMotor.set_all_motors(-1000*self.multiplier,-1000*self.multiplier,-1000*self.multiplier,-1000*self.multiplier)
+            else:
+                self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),0) #RED
+                self.connectedMotor.set_all_motors(0,0,0,0)
 
 # This is where I run my code as it is outside the class
 NUMBER_FIVE = JohnnyMotorController()
-NUMBER_FIVE.run()
+NUMBER_FIVE.listenForEvents()
