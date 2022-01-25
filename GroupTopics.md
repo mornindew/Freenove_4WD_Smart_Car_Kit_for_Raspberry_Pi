@@ -85,11 +85,12 @@ Solving the LED Chase:
 ### Topics
 
  - Explain LED and RGB color scheme
+ - Explain LED Slots
  - Explain IF Statements
  - Explain looping
  - Explain parameters
  - Show creating a new function
- - Explain the LED Slots and how GPIO works
+ - Discuss getting away from copying code
 
 ## Mission 6 - Name your rover
 This mission is to move out of running things in the test classes and actually create a class to represent your rover.
