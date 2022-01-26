@@ -1,9 +1,16 @@
 #import evdev
+from concurrent.futures import thread
+from xml.dom import NoModificationAllowedErr
+from black import asyncio
 from evdev import InputDevice, categorize, ecodes
 from Johnny_Led import *
 from Johnny_Camera import *
 from Johnny_Motor import *
 from servo import *
+from asyncio import *
+import _thread
+
+
 
 class JohnnyMotorController:
     #button code variables (change to suit your device)
@@ -15,6 +22,8 @@ class JohnnyMotorController:
     rtBtn = 311
     tlBtn = 310
     startBtn = 313
+    rightJoystickButton = 315
+    leftJoystickButton = 314
     maxJoystick = 65535
     minJoystick = 0
 
@@ -44,14 +53,16 @@ class JohnnyMotorController:
             #determine the event type
             if event.type == ecodes.EV_KEY:
                 #determine the specific key that was pressed
-                if event.code == self.aBtn: 
-                    self.__chaseColorButtonPress__(event)
+                if event.code == self.aBtn:
+                    #Run it aysnc to not take it hostage
+                   _thread.start_new_thread(self.__chaseColorButtonPress__, (event,))
                 elif event.code == self.xBtn: #take a picture
                     self.__takeAPicture__(event)
                 elif event.code == self.yBtn:
                     print("Empty Y button")
                 elif event.code == self.bBtn:
-                    self.__randomLED__(event)
+                    #Run async to not take it hostage
+                    _thread.start_new_thread(self.__randomLED__, (event,))
                 elif event.code == self.turboBtn:
                     self.__turboEnableDisable__(event)
                 elif event.code == self.rtBtn:
@@ -60,15 +71,18 @@ class JohnnyMotorController:
                     self.__leftDonuts__(event)
                 elif event.code == self.startBtn:
                     self.__startMotor__(event)
+                elif event.code == self.rightJoystickButton:
+                    self.__resetServos__(event)
+                elif event.code == self.leftJoystickButton:
+                    self.__resetServos__(event)
                 else:
                     self.__printEvent__(event)
 
             elif event.type == ecodes.EV_ABS:
                 if ecodes.ABS[event.code] == 'ABS_Y': #Left Joystick
-                    print("Y VALUE: "+str(event.value))
+                    self.__joystickLeftYAxis__(event.value)
                 elif ecodes.ABS[event.code] == 'ABS_X': #Left Joystick
-                    print("X VALUE: "+str(event.value))
-                    print("[inputs]", event.code, event.value)
+                    self.__joystickLeftXAxis__(event.value)
                 elif ecodes.ABS[event.code] == 'ABS_RY': #Right Joystick
                     self.__joystickRightYAxis__(event.value)
                 elif ecodes.ABS[event.code] == 'ABS_RX': #Right Joystick X Axis
@@ -83,7 +97,12 @@ class JohnnyMotorController:
     #Private Methods
     def __chaseColorButtonPress__(self, event):
         if event.value == 1:
-            self.ledController.chase_color_around(Color(255, 0, 0), Color(0, 0, 255),10)
+            self.ledController.chase_color_around(Color(255, 0, 0), Color(0, 0, 255),10)  
+    
+    def __chaseColorButtonPressThread__(self, args):
+        event = args[0]
+        if event.value == 1:
+            self.ledController.chase_color_around(Color(255, 0, 0), Color(0, 0, 255),10)  
     
     def __takeAPicture__(self, event):
         #only do it when pressed
@@ -134,6 +153,19 @@ class JohnnyMotorController:
                 self.ledController.colorWipe(self.ledController.strip, Color(255,255,0),75) #Yellow
                 self.ledController.colorWipe(self.ledController.strip, Color(0,255,0),75) #GREEN
 
+    def __resetServos__(self, event):
+        if event.value == 1: #only when pressed
+            self.currentHorizontalServo = 90
+            self.currentVerticalServo = 90
+            self.pwm.setServoPwm('0',self.currentHorizontalServo)
+            self.pwm.setServoPwm('1',self.currentHorizontalServo)  
+
+    def __resetServos__(self, event):
+        if event.value == 1: #only when pressed
+            if self.connectedMotor!=None:
+                self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),0) #RED
+                self.connectedMotor.set_all_motors(0,0,0,0)
+
     def __printEvent__(self,event):
         keyEvent = categorize(event)
         print("Unhandled Key Press: " +str(keyEvent))
@@ -171,12 +203,12 @@ class JohnnyMotorController:
         normalizedValue = self.__normalizeAxisValue__(value)
         #If it is < 0 && > -1 then back
         if (normalizedValue<0) and (normalizedValue>-1):
-            tempval = self.currentHorizontalServo -3
+            tempval = self.currentHorizontalServo -2
             if tempval > 0 and tempval< 180:
                 self.currentHorizontalServo = tempval
                 self.pwm.setServoPwm('0',self.currentHorizontalServo)
         elif (normalizedValue<1) and (normalizedValue>0):
-            tempval = self.currentHorizontalServo +3
+            tempval = self.currentHorizontalServo +2
             if tempval > 0 and tempval< 180:
                 self.currentHorizontalServo = tempval
                 self.pwm.setServoPwm('0',self.currentHorizontalServo)
@@ -187,17 +219,42 @@ class JohnnyMotorController:
         normalizedValue = self.__normalizeAxisValue__(value)
         #If it is < 0 && > -1 then back
         if (normalizedValue<0) and (normalizedValue>-1):
-            tempval = self.currentVerticalServo +3
+            tempval = self.currentVerticalServo +2
             if tempval > 0 and tempval< 180:
                 self.currentVerticalServo = tempval
                 self.pwm.setServoPwm('1',self.currentVerticalServo)
         elif (normalizedValue<1) and (normalizedValue>0):
-            tempval = self.currentVerticalServo -3
+            tempval = self.currentVerticalServo -2
             if tempval > 0 and tempval< 180:
                 self.currentVerticalServo = tempval
                 self.pwm.setServoPwm('1',self.currentVerticalServo)
         else:
             print("Ignore")
+
+    def __joystickLeftXAxis__(self,value):
+        if self.connectedMotor==None:    
+            print("No Connected Motor")
+        else:
+            normalizedValue = self.__normalizeAxisValue__(value)
+            #If it is < 0 && > -1 then back
+            if normalizedValue==0:
+                print("0 VALUE")
+            elif (normalizedValue<0) and (normalizedValue>-1):
+                self.connectedMotor.set_all_motors(400,400,400,400)
+            elif (normalizedValue<1) and (normalizedValue>0):
+                self.connectedMotor.set_all_motors(-400,-400,-400,-400)
+            else:
+                self.connectedMotor.set_all_motors(0,0,0,0)
+
+    def __joystickLeftYAxis__(self,value):
+        normalizedValue = self.__normalizeAxisValue__(value)
+        #If it is < 0 && > -1 then back
+        if (normalizedValue<0) and (normalizedValue>-1):
+                self.connectedMotor.set_all_motors(600,600,200,200)
+        elif (normalizedValue<1) and (normalizedValue>0):
+                self.connectedMotor.set_all_motors(200,200,600,600)
+        else:
+            self.connectedMotor.set_all_motors(0,0,0,0)
 
     def __normalizeAxisValue__(self,value):
         normalizedValue = 2.0 * (value - self.minJoystick) / (self.maxJoystick - self.minJoystick) - 1.0

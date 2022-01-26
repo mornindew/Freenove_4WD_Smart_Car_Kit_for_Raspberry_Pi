@@ -119,5 +119,14 @@
             "sudo": true,
             "args": ["FigureEight"]
         },
+        {
+            "name": "Main Server",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Code/Server/main.py",
+            "console": "integratedTerminal",
+            "sudo": true,
+            "args": ["-tn"]
+        },
     ]
 }
