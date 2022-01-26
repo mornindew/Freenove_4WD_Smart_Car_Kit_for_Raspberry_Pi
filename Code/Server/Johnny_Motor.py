@@ -95,7 +95,7 @@ class JohnyMotor:
         self.set_Left_Upper_Wheel(left_upper)
         self.set_Left_Lower_Wheel(left_lower)
         self.set_Right_Upper_Wheel(right_upper)
-        self.set_Right_Lower_Wheel(right_lower)
+        self.set_Right_Lower_Wheel(-right_lower)
 
     def __sanitize_motor_value(self,value):
         if self.need_to_reverse:

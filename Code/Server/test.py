@@ -48,6 +48,40 @@ def test_Led():
         led.colorWipe(led.strip, Color(0,0,0))  #turn off the light
         print ("\nEnd of program")
 
+        
+def test_FigureEight(): 
+    try:
+        roverMotors=Motor() 
+        roverLed=Led() 
+        for x in range (3):
+            roverLed.colorWipe(led.strip, Color(255, 0, 0),0)  # set to red because we are stopped
+            time.sleep(.5)
+            roverLed.colorWipe(led.strip, Color(255,255,0),0)  # Set to yellow to make a red --> yellow --> Green
+            time.sleep(.5)
+            roverLed.colorWipe(led.strip, Color(0, 255, 0),0)  # Set to green
+            roverMotors.setMotorModel(600,600,600,600)       #Forward
+            time.sleep(1) #I won't comment the other sleeps but this causes the motor to continue running for 1.5 seconds
+            roverLed.colorWipe(led.strip, Color(0,255,0),0)  # sets the LED to yellow becasue we are turning
+            roverMotors.setMotorModel(250,250,1200,1200)   #Left turn 
+            time.sleep(5)
+            roverLed.colorWipe(led.strip, Color(0, 255, 0),0)  # Set to green
+            roverMotors.setMotorModel(600,600,600,600)       #Forward
+            time.sleep(2) #I won't comment the other sleeps but this causes the motor to continue running for 1.5 seconds
+            roverLed.colorWipe(led.strip, Color(255,255,0),0)  # sets the LED to yellow becasue we are turning
+            roverMotors.setMotorModel(1200,1200,250,250)   #Right turn 
+            time.sleep(5)
+            roverLed.colorWipe(led.strip, Color(0, 255, 0),0)  # Set to green
+            roverMotors.setMotorModel(600,600,600,600)       #Forward
+            time.sleep(1) 
+        roverMotors.setMotorModel(0,0,0,0)
+        roverLed.colorWipe(led.strip, Color(255, 0, 0),0)  # set to red because we are stopped
+        time.sleep(3)
+        roverLed.colorWipe(led.strip, Color(0, 0, 0),0)  # Wipe out lights
+    except KeyboardInterrupt:
+        PWM.setMotorModel(0,0,0,0)
+        roverLed.colorWipe(led.strip, Color(0, 0, 0),0)  # Wipe out lights
+
+
 from Motor import *            
 roverMotors=Motor() 
 roverLed=Led()         
@@ -400,6 +434,8 @@ if __name__ == '__main__':
         time_diff = (end_time - start_time)
         execution_time = time_diff.total_seconds() * 1000
         print("Intermediate Chase Time :"+str(execution_time))
+    elif sys.argv[1] == 'FigureEight':
+        test_FigureEight()
     else:
         print("Not a valid test case.")
         exit() 

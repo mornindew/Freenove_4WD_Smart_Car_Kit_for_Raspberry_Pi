@@ -3,6 +3,7 @@ from evdev import InputDevice, categorize, ecodes
 from Johnny_Led import *
 from Johnny_Camera import *
 from Johnny_Motor import *
+from servo import *
 
 class JohnnyMotorController:
     #button code variables (change to suit your device)
@@ -14,18 +15,28 @@ class JohnnyMotorController:
     rtBtn = 311
     tlBtn = 310
     startBtn = 313
+    maxJoystick = 65535
+    minJoystick = 0
+
+    currentHorizontalServo = 90
+    currentVerticalServo = 90
+
 
     def __init__(self):
         #creates object 'gamepad' to store the data
         #you can call it whatever you like
         self.gamepad = InputDevice('/dev/input/event0')
         #prints out device info at start
-        print(self.gamepad.capabilities(verbose=True))
+        capabilities = self.gamepad.capabilities(verbose=True)
+        print(capabilities)
+
         led = Led() 
         self.ledController = JohnnyLed()
         self.connectedMotor = None
         self.turbo=False
         self.multiplier = 1
+
+        self.pwm=Servo()
 
     def listenForEvents(self):
         #evdev takes care of polling the controller in a loop
@@ -58,10 +69,10 @@ class JohnnyMotorController:
                 elif ecodes.ABS[event.code] == 'ABS_X': #Left Joystick
                     print("X VALUE: "+str(event.value))
                     print("[inputs]", event.code, event.value)
-                elif ecodes.ABS[event.code] == 'ABS_RY': #Left Joystick
-                    print("RY VALUE: "+str(event.value))
-                elif ecodes.ABS[event.code] == 'ABS_RX': #Left Joystick
-                    print("RX VALUE: "+str(event.value))
+                elif ecodes.ABS[event.code] == 'ABS_RY': #Right Joystick
+                    self.__joystickRightYAxis__(event.value)
+                elif ecodes.ABS[event.code] == 'ABS_RX': #Right Joystick X Axis
+                    self.__joystickRightXAxis__(event.value)
                 elif event.code == 16:
                     self.__directionalPadLeftRight__(event)
                 elif event.code == 17: # DPAD
@@ -77,10 +88,11 @@ class JohnnyMotorController:
     def __takeAPicture__(self, event):
         #only do it when pressed
         if event.value == 1:
-            camera = JohnnyCamera()
-            ts = str(time.time())
-            camera.takeAPicture(ts + "_picture")
-            camera.destroy()
+            # camera = JohnnyCamera()
+            # ts = str(time.time())
+            # camera.takeAPicture(ts + "_picture")
+            # camera.destroy()
+            print("CAMERA IS DEAD")
 
     def __randomLED__(self, event):
         if event.value == 1: #button pressed
@@ -155,6 +167,41 @@ class JohnnyMotorController:
                 self.ledController.colorWipe(self.ledController.strip, Color(255,0,0),0) #RED
                 self.connectedMotor.set_all_motors(0,0,0,0)
 
+    def __joystickRightXAxis__(self,value):
+        normalizedValue = self.__normalizeAxisValue__(value)
+        #If it is < 0 && > -1 then back
+        if (normalizedValue<0) and (normalizedValue>-1):
+            tempval = self.currentHorizontalServo -3
+            if tempval > 0 and tempval< 180:
+                self.currentHorizontalServo = tempval
+                self.pwm.setServoPwm('0',self.currentHorizontalServo)
+        elif (normalizedValue<1) and (normalizedValue>0):
+            tempval = self.currentHorizontalServo +3
+            if tempval > 0 and tempval< 180:
+                self.currentHorizontalServo = tempval
+                self.pwm.setServoPwm('0',self.currentHorizontalServo)
+        else:
+            print("Ignore")
+
+    def __joystickRightYAxis__(self,value):
+        normalizedValue = self.__normalizeAxisValue__(value)
+        #If it is < 0 && > -1 then back
+        if (normalizedValue<0) and (normalizedValue>-1):
+            tempval = self.currentVerticalServo +3
+            if tempval > 0 and tempval< 180:
+                self.currentVerticalServo = tempval
+                self.pwm.setServoPwm('1',self.currentVerticalServo)
+        elif (normalizedValue<1) and (normalizedValue>0):
+            tempval = self.currentVerticalServo -3
+            if tempval > 0 and tempval< 180:
+                self.currentVerticalServo = tempval
+                self.pwm.setServoPwm('1',self.currentVerticalServo)
+        else:
+            print("Ignore")
+
+    def __normalizeAxisValue__(self,value):
+        normalizedValue = 2.0 * (value - self.minJoystick) / (self.maxJoystick - self.minJoystick) - 1.0
+        return normalizedValue
 # This is where I run my code as it is outside the class
 NUMBER_FIVE = JohnnyMotorController()
 NUMBER_FIVE.listenForEvents()

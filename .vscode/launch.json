@@ -110,5 +110,14 @@
             "console": "integratedTerminal",
             "sudo": true,
         },
+        {
+            "name": "Figure Eight",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Code/Server/test.py",
+            "console": "integratedTerminal",
+            "sudo": true,
+            "args": ["FigureEight"]
+        },
     ]
 }
